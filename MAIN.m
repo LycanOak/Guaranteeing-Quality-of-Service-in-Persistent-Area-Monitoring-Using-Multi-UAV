@@ -2,7 +2,7 @@ close all;
 clearvars;
 
 %AoIsizes = [5,10,15,20]
-AoIsizes = [10]; %will be overwriten with Load
+AoIsizes = 15; %will be overwriten with Load
 
 DefineAoIs
 %

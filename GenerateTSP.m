@@ -3,16 +3,16 @@ function tsp_path = GenerateTSP(G, stopsLat, stopsLon, M, Nobstacles, obsIDs, st
     %problem
     
     %CAUTION WITH OBSTACLES
-    Gtsp = G;
+     Gtsp = G;
     if Nobstacles ~= 0
         rcnt = 0;
         for ii = obsIDs
-            Gtsp = rmnode(Gtsp, ii-rcnt);
-            
-            stopsLat = [stopsLat(1:(ii-rcnt-1)), stopsLat((ii-rcnt+1):end)];
-            stopsLon = [stopsLon(1:(ii-rcnt-1)), stopsLon((ii-rcnt+1):end)];
-            
-            rcnt = rcnt + 1;
+                Gtsp = rmnode(Gtsp, ii-rcnt);
+                
+                stopsLat = [stopsLat(1:(ii-rcnt-1)), stopsLat((ii-rcnt+1):end)];
+                stopsLon = [stopsLon(1:(ii-rcnt-1)), stopsLon((ii-rcnt+1):end)];
+                
+                rcnt = rcnt + 1;
         end
     end
     
@@ -89,12 +89,12 @@ function tsp_path = GenerateTSP(G, stopsLat, stopsLon, M, Nobstacles, obsIDs, st
     
     tourIdxs = conncomp(Gsol);
     numtours = max(tourIdxs); % number of subtours
-    %fprintf('# of subtours: %d\n',numtours);
+    fprintf('# of subtours: %d\n',numtours);
     
     A = spalloc(0,lendist,0); % Allocate a sparse linear inequality constraint matrix
     b = [];
     
-    hold off;
+    
     while numtours > 1 % Repeat until there is just one subtour
         % Add the subtour constraints
         b = [b;zeros(numtours,1)]; % allocate b
@@ -139,12 +139,12 @@ function tsp_path = GenerateTSP(G, stopsLat, stopsLon, M, Nobstacles, obsIDs, st
         % Visualize result
         % Remove the previous highlighted path
        % highlight(hGraph,Gsol,'LineStyle','-')
-        drawnow
+        %drawnow
         
         % How many subtours this time?
         tourIdxs = conncomp(Gsol);
         numtours = max(tourIdxs); % number of subtours
-        %fprintf('# of subtours: %d\n',numtours)
+        fprintf('# of subtours: %d\n',numtours)
     end
     
     %title('Solution with Subtours Eliminated');
@@ -152,5 +152,8 @@ function tsp_path = GenerateTSP(G, stopsLat, stopsLon, M, Nobstacles, obsIDs, st
     
     %==========================00
     %EXTRACT PATH
+    while startpos > numnodes(Gsol)
+        startpos = startpos - 1;
+    end
     tsp_path = dfsearch(Gsol,startpos)';
 end

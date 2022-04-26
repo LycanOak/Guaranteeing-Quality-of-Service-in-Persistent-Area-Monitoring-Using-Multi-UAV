@@ -30,7 +30,8 @@ function Gs = GetAoIObstacles(Gs)
                                     k = randi(floor(0.3*Gs(i).M^2));
                                     obsIDs = randperm(Gs(i).M^2,k);
                                 case 'No'
-                                    obsIDs = [4, 9, 14];
+                                    load('savetest.mat');
+                                    obsIDs = C(3).O005(1).obs;
                                     
                                     for oo = obsIDs
                                         nn = neighbors(Gs(i).Graph,oo);

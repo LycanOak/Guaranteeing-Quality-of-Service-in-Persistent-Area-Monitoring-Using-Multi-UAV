@@ -13,13 +13,14 @@ function [p_base] = PathSelection(g, startpos)
     %figure;
     switch answer
         case 'TSP'
-           tic;
-            p_base = GeneralTSP(g.Graph, g.XD, g.YD, g.M, length(g.ObsIDs), g.ObsIDs, startpos);
-            
-            
-            p_base = base_triming(p_base, g.ObsIDs);
+            tic;
+            p_base = GeneralTSP(g.Graph, g.XD, g.YD, g.M, length(g.ObsIDs), g.ObsIDs, startpos);   
+            if g.M <= 10
+                p_base = base_triming(p_base, g.ObsIDs);
+            end
             tspET = toc;
-            savetsptime(tspET,g.M, p_base);
+            savetsptime(tspET,g.M);
+            savepbase_tsp(g.M,p_base);
             %/\=/\=/\=/\=/\=/\ HERE /\=/\=/\=/\=/\=/\ HERE /\=/\=/\=/\=/\=/\
         case 'Baseline'
             tic;
@@ -29,7 +30,12 @@ function [p_base] = PathSelection(g, startpos)
                 p_base = HamilIgnoreObs(p_base, g.ObsIDs);
             end
             bslET = toc;
-            savetsptimeBSL(bslET,g.M, p_base);
+            savebsltime(bslET,g.M);
+            savepbase_bsl(g.M, p_base);
  
     end
 end
+
+
+
+
