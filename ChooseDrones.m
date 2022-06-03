@@ -23,7 +23,7 @@
     CellAlloc.TimeLastVisit = zeros(2,100000);
     CellAlloc.lat = 0;
     CellAlloc.long = 0;
-    CellAlloc.Class = 0;
+    CellAlloc.Class = -1;
     
     cell = repmat(CellAlloc,(Gs(gg).M)^2,1);
     
@@ -37,13 +37,26 @@
         end
         
     end
+%     %add repetion of visitation to special cells
+%     for sc = 1:length(Gs(gg).SpecIDs)
+%         %the ratio should always be > 1 --> specD < D
+%         ratio = (Gs(gg).DefaultDeadline)/(Gs(gg).Deadlines(Gs(gg).SpecIDs(sc)));
+%         % ratio is the times the cell should be visited 
+%         cell(Gs(gg).SpecIDs(sc)).Class = floor(ratio);
+%         p_base = [p_base,Gs(gg).SpecIDs(sc)*ones(1,floor(ratio)-1)]; % -1 because it is already being visited once
+%     end
+%     
+    looktab = Classes.LookTable(Gs(gg).DefaultDeadline);
+    
     %add repetion of visitation to special cells
+    
     for sc = 1:length(Gs(gg).SpecIDs)
-        %the ratio should always be > 1 --> specD < D
-        ratio = (Gs(gg).DefaultDeadline)/(Gs(gg).Deadlines(Gs(gg).SpecIDs(sc)));
-        % ratio is the times the cell should be visited 
-        cell(Gs(gg).SpecIDs(sc)).Class = floor(ratio);
-        p_base = [p_base,Gs(gg).SpecIDs(sc)*ones(1,floor(ratio)-1)]; % -1 because it is already being visited once
+        
+        cell(Gs(gg).SpecIDs(sc)).Class = Classes.WhatClass(looktab,Gs(gg).Deadlines(Gs(gg).SpecIDs(sc)));
+        if cell(Gs(gg).SpecIDs(sc)).Class > 1
+            p_base = [p_base, Gs(gg).SpecIDs(sc)*ones(1,cell(Gs(gg).SpecIDs(sc)).Class - 1)]; % -1 because it is already being visited once  
+        end
+        
     end
     
     tabdist = distances(Gs(gg).Graph);

@@ -8,18 +8,19 @@ function [OD, newt, lasttrade, drone, cell_timers, cell, lapctr, drnpathlist] = 
     newt = t;
     
     if cell_timers(id) > Gs.Deadlines(id) %passes deadline
+        if cell_timers(id) > 10*Gs.Deadlines(id)
+                    disp('Error over searched: It is impossible to find a solution with these Deadlines or with this number of drones.');
+                    OD = -1;
+                    return;
+        end
+                
         OD = 1;
-        disp(['Cell ', num2str(id), ' ODed with ', num2str(cell_timers(id))]);
+        disp(['Cell ', num2str(id), ' Deadline Expired with ', num2str(cell_timers(id))]);
         %naïve choice - go before the last visited cell
         % 'cb4s are pointers'
         
-        %id of the cell before the last visited cell
+        %index of the cell before the last visited cell - cb4
         ind = find(drone(drn).tracker(1,:)==0,1) - 2;
-        %cb4id = drone(drn).tracker(1,ind);
-        %index in path of the visited cell
-%         if ind <= 0
-%             ind = 1; %WARNING
-%         end
         cb4 = drone(drn).tracker(3,ind) - 1;
         
         % check trade
@@ -92,6 +93,8 @@ function [OD, newt, lasttrade, drone, cell_timers, cell, lapctr, drnpathlist] = 
                 ind = find(cell(cc).TimeLastVisit(1,:) == 0,1) - 1;
                 if ~isempty(ind) && ind ~= 0
                     cell_timers(cc) = t_reverse - cell(cc).TimeLastVisit(1,ind);
+                else
+                    cell_timers(cc) = t_reverse;
                 end
             end
             

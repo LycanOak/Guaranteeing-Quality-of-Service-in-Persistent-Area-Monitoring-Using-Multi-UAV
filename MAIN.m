@@ -2,12 +2,12 @@ close all;
 clearvars;
 
 %AoIsizes = [5,10,15,20]
-AoIsizes = 15; %will be overwriten with Load
+AoIsizes = ; %will be overwriten with Load
 
 DefineAoIs
 %
 %NDrones = [1,2,3,4]
-NDrones = [1];
+NDrones = 5;
 
 
 %Start Mission
@@ -18,12 +18,18 @@ missiontype = questdlg('Do you wish the Deadlines to be controled?', ...
 %for every AoI
 for gg = 1:length(Gs)
     
+%     %save classes
+%     groups = unique(Gs(gg).Deadlines);
+%     for ii = 1:length(groups)
+%         groups(ii) = floor(Gs(gg).DefaultDeadline/groups(ii));
+%     end
+%     deadliestlines(gg).closestMat = zeros( length(unique(groups)), length(NDrones));
+%     
+
     %save classes
-    groups = unique(Gs(gg).Deadlines);
-    for ii = 1:length(groups)
-        groups(ii) = floor(Gs(gg).DefaultDeadline/groups(ii));
-    end
-    deadliestlines(gg).closestMat = zeros( length(unique(groups)), length(NDrones));
+    groups = 1:5;
+    
+    deadliestlines(gg).closestMat = zeros( 6, length(NDrones));
     
     for nds = NDrones
         Ndrones = nds;

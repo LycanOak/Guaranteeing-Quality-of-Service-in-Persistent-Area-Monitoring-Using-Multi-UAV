@@ -7,6 +7,10 @@
     ditcol = distinguishable_colors(Ndrones);
     labels = strings([1, Ndrones]);
     
+    fonttitlelabels = 16;
+    fontlgd = 20;
+    fontticks = 24;
+    
     for dd = 1:Ndrones
         droneid = sprintf('drone %d', dd);
         color = [ditcol(dd,1),ditcol(dd,2),ditcol(dd,3)];
@@ -32,9 +36,10 @@
         labels(dd) = droneid;
     end
     yticks(1:1:Gs(gg).M^2);
-    ylabel('Cells','FontSize',24);
-    xlabel('Time [s]','FontSize',24);
-    
+    ylabel('Cells','FontSize',fonttitlelabels);
+    xlabel('Time [s]','FontSize',fonttitlelabels);
+    %
+    set(gca,'FontSize',fontticks);
     h = zeros(Ndrones, 1);
     for dd = 1:Ndrones
         h(dd) = plot(0,0,'d', ...
@@ -43,10 +48,17 @@
             'visible', 'on');
     end
     lgn = legend(h, labels);
-    lgn.FontSize = 14;
+    lgn.FontSize = fontlgd;
     
+% % Find the 'line' objects
+% icons = findobj(icons,'Type','line');
+% % Find lines that use a marker
+% icons = findobj(icons,'Marker','none','-xor');
+% % Resize the marker in the legend
+% set(icons,'MarkerSize',10);
+
     hold off;
-    tight();
+    %tight();
     set(ff, 'Position',  [100, 100, 1500, 1400]);
     filename = ['DronePos',num2str(Gs(gg).M),'D',num2str(Ndrones),'.png'];
     
