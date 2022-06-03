@@ -22,7 +22,7 @@ function Gs = GetAoISpecialCells(Gs)
                     switch ans2
                         case 'Define in script'
                             ansrandspec = questdlg('Do you want random special cells?', ...
-                                ['Obstacles M =',num2str(Gs(i).M)], ...
+                                ['Spec Cells M =',num2str(Gs(i).M)], ...
                                 'Yes','No','Yes');
                             switch ansrandspec
                                 case 'Yes'
@@ -34,9 +34,10 @@ function Gs = GetAoISpecialCells(Gs)
                                     end
                                     
                                 case 'No'
-                                    specIDs = [2, 15, 9];
-                                    for ss = specIDs
-                                        Gs(i).Deadlines(specIDs(ss)) = Gs(i).DefaultDeadline/2;
+                                    load('speccellsdoc.mat');
+                                    specIDs = SC(1).OS;
+                                    for ss = 1:length(specIDs)
+                                        Gs(i).Deadlines(specIDs(ss)) = SCdead(1).OS(ss);
                                     end
                                     
                             end

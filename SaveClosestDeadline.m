@@ -9,8 +9,18 @@ function ClosestMat = SaveClosestDeadline(Gs, ClosestMat, groups, hist_info, Ndr
         for ii = 1:length(hist_info(g).info) % for every field of info
             if ~isempty(hist_info(g).info(ii).TimeBtwnVisits) %if the cell is part of the class
                 clt = [clt, cd(ii)];
+                %clt = [clt, cd(ii)/Gs.Deadlines(ii)*100];
             end
         end
-        ClosestMat.closestMat(g,find(Ndrones ==nds,1)) = max(clt);
+        if ~isempty(clt)
+            ClosestMat.closestMat(g+1,find(Ndrones ==nds,1)) = max(clt);
+        end
     end
 end
+
+
+
+
+
+
+

@@ -8,7 +8,7 @@ if LoadOrNew()
 else
     
     t_sensing = 20;
-    t_fly = 30;
+    t_fly = 10;
     
     Gs = Allgraphs(AoIsizes, t_sensing, t_fly);
     for m = 1:length(AoIsizes)

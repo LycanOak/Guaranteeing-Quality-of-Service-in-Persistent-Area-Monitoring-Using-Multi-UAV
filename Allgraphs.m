@@ -14,7 +14,6 @@ function [Gs] = Allgraphs(Ms, t_sensing, t_fly)
         Gs(i).M = Ms(i);
         [Gs(i).Graph, Gs(i).XD, Gs(i).YD] = create_graph(Gs(i).M);
         Gs(i).DefaultDeadline = (Gs(i).M)^2*(t_sensing + t_fly); %seen as the deadline of a normal cell
-        
         prompt = {'Enter Deadline of normal cells:'};
         dlgtitle = ['Deadline',num2str(Gs(i).M)];
         dims = [1 35];
